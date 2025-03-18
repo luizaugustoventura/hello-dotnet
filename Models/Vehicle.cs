@@ -15,8 +15,8 @@ namespace HelloDotnet.Models
     public required string Model { get; set; }
 
     [Required]
-    [Column("flex_plate")]
-    public required string FlexPlate { get; set; }
+    [Column("license_plate")]
+    public required string LicensePlate { get; set; }
 
     [Required]
     [ForeignKey("owner_id")]

@@ -6,8 +6,8 @@ namespace HelloDotnet.DTOs
   {
     public required Guid Id { get; set; }
     public required string Model { get; set; }
-    [JsonPropertyName("flex_plate")]
-    public required string FlexPlate { get; set; }
+    [JsonPropertyName("license_plate")]
+    public required string LicensePlate { get; set; }
     public required VehicleOwnerResponseDTO Owner { get; set; }
   }
 }

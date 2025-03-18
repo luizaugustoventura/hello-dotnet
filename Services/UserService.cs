@@ -46,14 +46,14 @@ public class UserService : IUserService
     var newVehicle = new Vehicle
     {
       Model = vehicle.Model,
-      FlexPlate = vehicle.FlexPlate,
+      LicensePlate = vehicle.LicensePlate,
       Owner = owner
     };
     var createdVehicle = await _userRepository.AddNewVehicleAsync(newVehicle);
     var vehicleResponse = new VehicleResponseDTO{
       Id = createdVehicle.Id,
       Model = createdVehicle.Model,
-      FlexPlate = createdVehicle.FlexPlate,
+      LicensePlate = createdVehicle.LicensePlate,
       Owner = new  VehicleOwnerResponseDTO {
         Id = owner.Id,
         Name = owner.Name,
