@@ -19,12 +19,12 @@ public class UserRepository : IUserRespository
 
   public async Task<User[]> GetAllUsersAsync()
   {
-    return await _context.Users.ToArrayAsync();
+    return await _context.Users.Include(u => u.Vehicles).ToArrayAsync();
   }
 
   public async Task<User?> GetUserByIdAsync(Guid id)
   {
-    return await _context.Users.FindAsync(id);
+    return await _context.Users.Include(u => u.Vehicles).FirstOrDefaultAsync(u => u.Id == id);
   }
 
   public async Task DeleteUserByIdAsync(Guid id)

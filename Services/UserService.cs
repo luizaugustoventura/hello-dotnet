@@ -25,14 +25,50 @@ public class UserService : IUserService
     return await _userRepository.AddUserAsync(user);
   }
 
-  public async Task<User[]> GetAllUsersAsync()
+  public async Task<UserResponseDTO[]> GetAllUsersAsync()
   {
-    return await _userRepository.GetAllUsersAsync();
+    var users = await _userRepository.GetAllUsersAsync();
+    var usersResponse = new UserResponseDTO[users.Length];
+    for (int i = 0; i < users.Length; i++)
+    {
+      var user = users[i];
+      var userResponse = new UserResponseDTO
+      {
+        Id = user.Id,
+        Name = user.Name,
+        Email = user.Email,
+        Vehicles = [],
+      };
+      user.Vehicles?.ToList().ForEach(v => userResponse.Vehicles.Add(new UserVehicleResponseDTO
+      {
+        Id = v.Id,
+        Model = v.Model,
+        LicensePlate = v.LicensePlate,
+      }));
+      usersResponse[i] = userResponse;
+    }
+
+    return usersResponse;
   }
 
-  public async Task<User?> GetUserByIdAsync(Guid id)
+  public async Task<UserResponseDTO?> GetUserByIdAsync(Guid id)
   {
-    return await _userRepository.GetUserByIdAsync(id);
+    var user = await _userRepository.GetUserByIdAsync(id) ?? throw new ArgumentException("User not found");
+    var userResponse = new UserResponseDTO
+    {
+      Id = user.Id,
+      Name = user.Name,
+      Email = user.Email,
+      Vehicles = [],
+    };
+    user.Vehicles?.ToList().ForEach(v => userResponse.Vehicles.Add(new UserVehicleResponseDTO
+    {
+      Id = v.Id,
+      Model = v.Model,
+      LicensePlate = v.LicensePlate,
+    }));
+
+    return userResponse;
   }
 
   public async Task DeleteUserByIdAsync(Guid id)
@@ -50,16 +86,18 @@ public class UserService : IUserService
       Owner = owner
     };
     var createdVehicle = await _userRepository.AddNewVehicleAsync(newVehicle);
-    var vehicleResponse = new VehicleResponseDTO{
+    var createdVehicleResponse = new VehicleResponseDTO
+    {
       Id = createdVehicle.Id,
       Model = createdVehicle.Model,
       LicensePlate = createdVehicle.LicensePlate,
-      Owner = new  VehicleOwnerResponseDTO {
+      Owner = new VehicleOwnerResponseDTO
+      {
         Id = owner.Id,
         Name = owner.Name,
         Email = owner.Email
       }
     };
-    return vehicleResponse;
+    return createdVehicleResponse;
   }
 }
