@@ -1,0 +1,35 @@
+@app_HostAddress = http://localhost:5180
+
+GET {{app_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
+GET {{app_HostAddress}}/api/hello/world
+
+###
+GET {{app_HostAddress}}/api/user
+
+###
+POST {{app_HostAddress}}/api/user
+Content-Type: application/json
+
+{
+  "name": "Luiz",
+  "email": "luiz@email.com"
+}
+
+###
+@userId = 8fb64c48-8f08-4b1f-a6f2-f91c82ee8d60
+GET {{app_HostAddress}}/api/user/{{userId}}
+
+###
+DELETE {{app_HostAddress}}/api/user/{{userId}}
+
+###
+POST {{app_HostAddress}}/api/user/{{userId}}/vehicles
+Content-Type: application/json
+
+{
+  "model": "Honda Civic Touring 2020 Flex 1.5 Turbo",
+  "flex_plate": "ABC-1234"
+}

@@ -1,0 +1,28 @@
+version: "3.8"
+
+services:
+  app:
+    build: .
+    ports:
+      - "5180:5180"
+    volumes:
+      - .:/app
+    environment:
+      - ConnectionStrings__DefaultConnection=Host=db;Port=5432;Database=hello-dotnet-db;Username=root;Password=123456
+    depends_on:
+      - db
+
+  db:
+    image: postgres:latest
+    restart: always
+    environment:
+      POSTGRES_DB: hello-dotnet-db
+      POSTGRES_USER: root
+      POSTGRES_PASSWORD: 123456
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      
+volumes:
+  postgres_data:
